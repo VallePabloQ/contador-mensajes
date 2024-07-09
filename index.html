@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analizador de Chats de WhatsApp</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+        }
+        #results {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Analizador de Chats de WhatsApp</h1>
+    <input type="file" id="fileInput" accept=".txt">
+    <button onclick="analyzeFile()">Analizar</button>
+    <div id="results"></div>
+    <script src="scripts/main.js"></script>
+</body>
+</html>
