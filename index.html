@@ -15,12 +15,18 @@
         }
         #results {
             margin-top: 20px;
+            width: 80%;
+            max-width: 600px;
+            word-wrap: break-word;
         }
     </style>
 </head>
 <body>
     <h1>Analizador de Chats de WhatsApp</h1>
-    <input type="file" id="fileInput" accept=".txt">
+    <label for="fileInput">Selecciona un archivo de chat exportado:</label>
+    <input type="file" id="fileInput" accept=".txt" title="Selecciona un archivo de chat exportado">
+    <label for="dateInput">Selecciona una fecha (opcional):</label>
+    <input type="date" id="dateInput">
     <button onclick="analyzeFile()">Analizar</button>
     <div id="results"></div>
     <script src="scripts/main.js"></script>
