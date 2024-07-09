@@ -1,3 +1,4 @@
+/* Estilos base para todo tipo de pantallas */
 body {
     font-family: Arial, sans-serif;
     display: flex;
@@ -6,11 +7,14 @@ body {
     height: 100vh;
     flex-direction: column;
     background-color: #f0f0f0;
+    margin: 0; /* Elimina el margen predeterminado del body */
+    padding: 10px; /* Añade un pequeño relleno al body */
 }
 
 h1 {
     margin-bottom: 20px;
     color: #333;
+    font-size: 24px; /* Tamaño de fuente más grande para pantallas pequeñas */
 }
 
 label {
@@ -24,8 +28,8 @@ input[type="file"], input[type="date"], button {
     font-size: 16px;
     border: 1px solid #ccc;
     border-radius: 4px;
-    width: 300px;
-    max-width: 80%;
+    width: 100%; /* Ancho completo en pantallas pequeñas */
+    max-width: 300px; /* Ancho máximo para evitar que sea demasiado ancho */
 }
 
 button {
@@ -41,7 +45,7 @@ button:hover {
 
 #results {
     margin-top: 20px;
-    width: 80%;
+    width: 100%; /* Ancho completo en pantallas pequeñas */
     max-width: 600px;
     word-wrap: break-word;
     background-color: #fff;
@@ -64,4 +68,20 @@ ol li {
     margin-bottom: 5px;
     font-size: 16px;
     color: #444;
+}
+
+/* Media query para pantallas pequeñas (como teléfonos) */
+@media (max-width: 600px) {
+    h1 {
+        font-size: 20px;
+    }
+    input[type="file"], input[type="date"], button {
+        font-size: 14px;
+    }
+    #results {
+        padding: 8px;
+    }
+    #results h2 {
+        font-size: 16px;
+    }
 }
