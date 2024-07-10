@@ -14,36 +14,45 @@ document.getElementById('fileInput').addEventListener('change', function () {
 });
 
 function analyzeText(text) {
-    // Expresión regular para capturar la fecha y el remitente
-    const pattern = /\[(\d{1,2}\/\d{1,2}\/\d{2,4}), \d{2}:\d{2}:\d{2}\] (.+?): (.+)/;
+    const pattern = /\[(\d{1,2}\/\d{1,2}\/\d{2,4}), (\d{1,2}:\d{2}:\d{2})(?:\s?([aApP]\.?[mM]\.?))?\] (.+?): (.+)/;
     const messageCount = {};
     const lines = text.split('\n');
+    const filteredMessages = [];
 
-    // Obtener la fecha filtrada por el usuario
     const dateInput = document.getElementById('dateInput').value;
 
     console.log('Comenzando análisis de texto');
     lines.forEach(line => {
         const match = line.match(pattern);
         if (match) {
-            const date = match[1]; // Captura la fecha en formato DD/MM/YY
-            const sender = match[2];
-            
-            // Convertir la fecha capturada al formato deseado para comparar
+            const date = match[1];
+            let time = match[2];
+            const period = match[3];
+            const sender = match[4];
+            const message = match[5];
+
+            if (period) {
+                time = convertTo24HourFormat(time, period);
+            }
+
             const formattedDate = convertDateFormat(date);
 
-            // Verificar si se seleccionó una fecha y si coincide con la fecha del mensaje
             if (!dateInput || formattedDate === dateInput) {
                 if (!messageCount[sender]) {
                     messageCount[sender] = 0;
                 }
                 messageCount[sender]++;
+
+                if (formattedDate === dateInput) {
+                    filteredMessages.push(`[${formattedDate}, ${time}] ${sender}: ${message}`);
+                }
             }
         }
     });
 
     console.log('Análisis completado', messageCount);
     displayResults(messageCount);
+    displayFilteredMessages(filteredMessages);
 }
 
 function displayResults(messageCount) {
@@ -63,6 +72,24 @@ function displayResults(messageCount) {
 
     resultsDiv.appendChild(ol);
     console.log('Resultados mostrados en el DOM');
+}
+
+function displayFilteredMessages(filteredMessages) {
+    const filteredMessagesDiv = document.getElementById('filteredMessages');
+    filteredMessagesDiv.innerHTML = '<h2>Los mensajes insanos en cuestión:</h2>';
+
+    if (filteredMessages.length === 0) {
+        filteredMessagesDiv.innerHTML += '<p>No se encontraron mensajes en la fecha seleccionada.</p>';
+    } else {
+        const ul = document.createElement('ul');
+        filteredMessages.forEach(message => {
+            const li = document.createElement('li');
+            li.textContent = message;
+            ul.appendChild(li);
+        });
+        filteredMessagesDiv.appendChild(ul);
+    }
+    console.log('Mensajes filtrados mostrados en el DOM');
 }
 
 function analyzeFile() {
@@ -91,4 +118,16 @@ function convertDateFormat(date) {
         return `${year}-${month}-${day}`;
     }
     return date; // Si no se puede convertir, devolver la fecha original
+}
+
+// Función para convertir el formato de 12 horas a 24 horas
+function convertTo24HourFormat(time, period) {
+    const [hours, minutes, seconds] = time.split(':').map(Number);
+    if (period.toLowerCase().includes('p') && hours < 12) {
+        return `${hours + 12}:${minutes}:${seconds}`;
+    }
+    if (period.toLowerCase().includes('a') && hours === 12) {
+        return `00:${minutes}:${seconds}`;
+    }
+    return time;
 }

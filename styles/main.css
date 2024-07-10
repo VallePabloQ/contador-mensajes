@@ -43,18 +43,27 @@ button:hover {
     background-color: #0056b3;
 }
 
-#results {
-    margin-top: 20px;
-    width: 100%; /* Ancho completo en pantallas pequeñas */
-    max-width: 600px;
-    word-wrap: break-word;
-    background-color: #fff;
+/* Nuevo contenedor flexible */
+.container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 1200px; /* Ancho máximo para el contenedor */
+}
+
+#results, #filteredMessages {
+    width: 45%; /* Ancho de cada caja */
     padding: 10px;
     border-radius: 4px;
     box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    word-wrap: break-word;
+    max-height: 500px; /* Altura máxima */
+    overflow-y: auto; /* Barra de desplazamiento vertical */
+    margin-top: 20px;
 }
 
-#results h2 {
+#results h2, #filteredMessages h2 {
     color: #333;
     font-size: 18px;
     margin-bottom: 10px;
@@ -78,10 +87,18 @@ ol li {
     input[type="file"], input[type="date"], button {
         font-size: 14px;
     }
-    #results {
-        padding: 8px;
+    .container {
+        flex-direction: column; /* Cambia a columna en pantallas pequeñas */
+        align-items: center;
     }
-    #results h2 {
+    #results, #filteredMessages {
+        width: 100%; /* Ancho completo en pantallas pequeñas */
+        max-width: 600px; /* Ancho máximo */
+    }
+    #results {
+        margin-bottom: 20px; /* Espacio entre las cajas */
+    }
+    #results h2, #filteredMessages h2 {
         font-size: 16px;
     }
 }
